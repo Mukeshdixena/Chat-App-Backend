@@ -18,6 +18,9 @@ exports.postUser = async (req, res, next) => {
     try {
         const { username, email, phonenumber, password } = req.body;
 
+        console.log('running ');
+        console.log({ username, email, phonenumber, password });
+
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 

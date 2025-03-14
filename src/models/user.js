@@ -23,12 +23,9 @@ const User = sequelize.define(
             },
         },
         phonenumber: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false,
             unique: true,
-            validate: {
-                isEmail: true, // Ensures a valid email format
-            },
         },
         password: {
             type: DataTypes.STRING,
