@@ -1,5 +1,7 @@
 const user = require('../models/user');
 
+const bcrypt = require('bcryptjs');
+
 const { Sequelize } = require('sequelize'); // Ensure Sequelize is imported
 
 
@@ -14,7 +16,7 @@ exports.getUser = async (req, res, next) => {
 
 exports.postUser = async (req, res, next) => {
     try {
-        const { username, email, password } = req.body;
+        const { username, email, phonenumber, password } = req.body;
 
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -23,10 +25,10 @@ exports.postUser = async (req, res, next) => {
         const newUser = await user.create({
             username,
             email,
-            totalAmount: 0,
+            phonenumber,
             password: hashedPassword
         });
-        await Password.create({ hashedPassword: hashedPassword, UserId: newUser.id });
+
         res.status(201).json(newUser);
     } catch (err) {
         console.error(err);
