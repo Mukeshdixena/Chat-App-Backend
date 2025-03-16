@@ -1,6 +1,6 @@
 const message = require('../models/message.js');
 
-exports.getMessage = async (req, res, next) => {
+exports.getMessages = async (req, res, next) => {
     const thisMessage = await message.findAll()
     if (!thisMessage) {
         return res.status(404).json({ message: 'User not found' });
@@ -11,10 +11,6 @@ exports.getMessage = async (req, res, next) => {
 exports.postMessage = async (req, res, next) => {
     try {
         const { messageText } = req.body;
-
-        console.log("running post message")
-        console.log(messageText)
-        console.log(req.user.id)
 
         const UserId = req.user.id;
         // Create user

@@ -4,7 +4,7 @@ const userAuth = require('../middleware/auth.js');
 
 const router = express.Router();
 
-router.get('/api/getMessage', userAuth.authonticate, messageController.getMessage);
+router.get('/api/getMessages', userAuth.authonticate, messageController.getMessages);
 
 router.post('/api/postMessage', userAuth.authonticate, messageController.postMessage);
 
