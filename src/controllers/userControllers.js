@@ -1,4 +1,4 @@
-const user = require('../models/user');
+const User = require('../models/user');
 
 const { Op } = require('sequelize');
 
@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 exports.getUser = async (req, res, next) => {
-    const thisUsers = await user.findAll()
+    const thisUsers = await User.findAll()
     if (!thisUsers) {
         return res.status(404).json({ message: 'User not found' });
     }
@@ -18,11 +18,9 @@ exports.postUser = async (req, res, next) => {
     try {
         const { username, email, phonenumber, password } = req.body;
 
-        console.log("running post user")
-        console.log({ username, email, phonenumber, password })
 
         // Check if user already exists
-        const existingUser = await user.findOne({
+        const existingUser = await User.findOne({
             where: {
                 [Op.or]: [{ email }, { phonenumber }]
             }
@@ -36,7 +34,7 @@ exports.postUser = async (req, res, next) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create user
-        const newUser = await user.create({
+        const newUser = await User.create({
             username,
             email,
             phonenumber,
@@ -58,7 +56,7 @@ exports.signin = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const currUser = await user.findOne({ where: { email } });
+        const currUser = await User.findOne({ where: { email } });
         if (!currUser) {
             return res.status(404).json({ success: false, message: 'User not found' });
         }

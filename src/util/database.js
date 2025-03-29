@@ -12,7 +12,6 @@ async function createDatabase() {
     });
 
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${process.env.DATABASE_NAME}\`;`);
-    console.log(`Database '${process.env.DATABASE_NAME}' is ready.`);
     await connection.end();
 }
 

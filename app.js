@@ -4,9 +4,11 @@ const sequelize = require('./src/util/database.js');
 
 const userRouter = require('./src/router/userRouter');
 const messageRouter = require('./src/router/messageRouter');
+const chatGroupRouter = require('./src/router/chatGroupRouter');
 
-const user = require('./src/models/user.js')
-const massage = require('./src/models/message.js')
+const User = require('./src/models/user.js')
+const ChatGroup = require('./src/models/ChatGroup.js')
+const Message = require('./src/models/message.js')
 
 const cors = require('cors');
 
@@ -30,9 +32,14 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(userRouter);
 app.use(messageRouter);
+app.use(chatGroupRouter);
 
-user.hasMany(massage);
-massage.belongsTo(user);
+User.hasMany(Message);
+ChatGroup.hasMany(Message);
+
+User.belongsToMany(ChatGroup, { through: 'UserChatGroup' });
+ChatGroup.belongsToMany(User, { through: 'UserChatGroup' });
+
 
 
 app.get("/", (req, res) => {
