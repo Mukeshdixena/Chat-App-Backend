@@ -1,4 +1,6 @@
+require('dotenv').config();
 const express = require('express');
+const path = require('path');
 
 const sequelize = require('./src/util/database.js');
 
@@ -12,7 +14,6 @@ const Message = require('./src/models/message.js')
 
 const cors = require('cors');
 
-require('dotenv').config();
 
 const PORT = process.env.PORT || 3000;
 
@@ -28,6 +29,7 @@ app.use(cors({
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'src/view')));
 
 
 app.use(userRouter);
@@ -42,8 +44,11 @@ ChatGroup.belongsToMany(User, { through: 'UserChatGroup' });
 
 
 
-app.get("/", (req, res) => {
+app.get("/test", (req, res) => {
     res.send("Hello, Express!");
+});
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/view', 'index.html'));
 });
 
 sequelize
